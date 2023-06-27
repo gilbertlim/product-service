@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -34,20 +35,14 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductDto> getProducts() {
+    public List<ProductDto> getProducts(@RequestParam(required = false) List<Long> productIds) {
         log.info("getProducts");
-        return service.getProducts();
+        return service.getProducts(productIds);
     }
 
-    @PostMapping("/ids")
-    public List<ProductDto> getProductsFromIds(@RequestBody List<Integer> productIds) {
-        log.info("getProductsFromIds");
-        return service.getProductsFromIds(productIds);
-    }
-
-    @DeleteMapping
-    public void deleteProduct(@RequestBody ProductDto requestDto) {
+    @DeleteMapping("/{productId}")
+    public void deleteProduct(@PathVariable Long productId) {
         log.info("deleteProduct");
-        service.deleteProduct(requestDto);
+        service.deleteProduct(productId);
     }
 }

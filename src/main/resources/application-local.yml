@@ -1,24 +1,2 @@
 server:
   port: 8082
-
-spring:
-  application:
-    name: "product"
-  datasource:
-    url: ${DB_CONNECTION_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
-
-logging:
-  pattern:
-    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
-  level:
-    com.gilbert.msa: DEBUG
