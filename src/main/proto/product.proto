@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "productProto";
+option java_package = "com.gilbert.msa.proto";
+
+package com.gilbert.msa;
+
+message ProductRequestGrpc {
+  repeated int64 productIds = 1;
+}
+
+message ProductGrpc {
+  int64 productId = 1;
+  string productName = 2;
+  int32 price = 3;
+  int32 quantity = 4;
+}
+
+message ProductResponseGrpc {
+  repeated ProductGrpc productGrpc = 1;
+}
+
+service ProductService {
+  rpc getProducts (ProductRequestGrpc) returns (ProductResponseGrpc) {}
+}
