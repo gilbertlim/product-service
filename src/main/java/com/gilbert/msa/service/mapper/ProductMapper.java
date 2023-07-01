@@ -1,4 +1,4 @@
-package com.gilbert.msa.domain.mapper;
+package com.gilbert.msa.service.mapper;
 
 import com.gilbert.msa.domain.dto.ProductDto;
 import com.gilbert.msa.domain.entity.Product;

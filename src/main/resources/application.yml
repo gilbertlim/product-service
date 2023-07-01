@@ -19,12 +19,12 @@ spring:
     init:
       mode: always
 
+grpc:
+  server:
+    port: 9090
+
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
   level:
     com.gilbert.msa: DEBUG
-
-grpc:
-  server:
-    port: 9090

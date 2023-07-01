@@ -2,7 +2,7 @@ package com.gilbert.msa.service;
 
 import com.gilbert.msa.domain.dto.ProductDto;
 import com.gilbert.msa.domain.entity.Product;
-import com.gilbert.msa.domain.mapper.ProductMapper;
+import com.gilbert.msa.service.mapper.ProductMapper;
 import com.gilbert.msa.repository.ProductRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class ProductService {
     private final ProductMapper mapper;
 
     @Transactional
-    public void createOrder(ProductDto requestDto) {
-        repository.save(mapper.toEntity(requestDto));
+    public void createOrder(ProductDto productDto) {
+        repository.save(mapper.toEntity(productDto));
     }
 
     public ProductDto getProduct(Long id) {

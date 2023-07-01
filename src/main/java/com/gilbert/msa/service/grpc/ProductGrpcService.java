@@ -6,6 +6,7 @@ import com.gilbert.msa.proto.ProductRequestGrpc;
 import com.gilbert.msa.proto.ProductResponseGrpc;
 import com.gilbert.msa.proto.ProductServiceGrpc;
 import com.gilbert.msa.service.ProductService;
+import com.gilbert.msa.service.grpc.mapper.GrpcMapper;
 import io.grpc.stub.StreamObserver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,29 +20,25 @@ public class ProductGrpcService extends ProductServiceGrpc.ProductServiceImplBas
 
     private final ProductService productService;
 
+    private final GrpcMapper grpcMapper;
+
     @Override
     public void getProducts(ProductRequestGrpc request, StreamObserver<ProductResponseGrpc> responseObserver) {
-        String prefixLog = "ProductGrpcService#getProducts";
-        log.info(prefixLog + " - {}", request.getProductIdsList());
+        String logPrefix = "ProductGrpcService#getProducts";
+        log.info(logPrefix + " productIds - {}", request.getProductIdsList());
 
-        List<ProductDto> products = productService.getProducts(request.getProductIdsList());
-        List<ProductGrpc> productGrpc = products.stream()
-            .map(product -> {
-                return ProductGrpc.newBuilder()
-                    .setProductId(product.getProductId())
-                    .setProductName(product.getProductName())
-                    .setPrice(product.getPrice())
-                    .setQuantity(product.getQuantity())
-                    .build();
-            }).toList();
+        List<ProductDto> productDtos = productService.getProducts(request.getProductIdsList());
+        List<ProductGrpc> productGrpcs = productDtos.stream()
+            .map(grpcMapper::toProductGrpc)
+            .toList();
 
         ProductResponseGrpc productResponseGrpc = ProductResponseGrpc.newBuilder()
-            .addAllProductGrpc(productGrpc)
+            .addAllProductGrpc(productGrpcs)
             .build();
 
         responseObserver.onNext(productResponseGrpc);
         responseObserver.onCompleted();
 
-        log.info(prefixLog + " - completed");
+        log.info(logPrefix + " - completed");
     }
 }
