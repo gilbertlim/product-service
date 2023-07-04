@@ -3,7 +3,7 @@
 REPOSITORY=9ilbert
 SERVICE=product
 TYPE=vanila
-VERSION=0.0
+VERSION=0.1
 
 ./gradlew build -x test
 docker run --privileged --rm tonistiigi/binfmt --install all
